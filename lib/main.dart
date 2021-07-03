@@ -5,6 +5,17 @@ import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  // final List<String> imgList = [
+  //   'assets/images/1.jpeg',
+  //   'assets/images/2.jpeg',
+  //   'assets/images/3.jpeg',
+  //   'assets/images/4.jpeg',
+  //   'assets/images/5.jpeg',
+  //   'assets/images/6.jpeg',
+  //   'assets/images/7.jpeg',
+  //   'assets/images/8.jpeg',
+  // ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -89,12 +100,42 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          body: Column(
+          body: ListView(
             children: <Widget>[
-              SizedBox(
+              Container(
                 height: 250.0,
                 width: double.infinity,
                 child: Carousel(
+                  images: [
+                    Image.asset(
+                      'assets/images/1.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/2.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/3.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/4.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/6.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/7.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/8.jpeg',
+                      fit: BoxFit.fill,
+                    ),
+                  ],
                   boxFit: BoxFit.cover,
                   autoplay: true,
                   animationCurve: Curves.fastOutSlowIn,
@@ -103,25 +144,256 @@ class MyApp extends StatelessWidget {
                   dotIncreasedColor: Color(0xFFFF335C),
                   dotBgColor: Colors.transparent,
                   dotPosition: DotPosition.bottomCenter,
-                  dotVerticalPadding: 10.0,
+                  dotSpacing: 30,
+                  dotVerticalPadding: 7.0,
                   showIndicator: true,
                   indicatorBgPadding: 7.0,
-                  images: [
-                    Image.asset(
-                      'assets/images/slider_1.jpeg',
-                      fit: BoxFit.fill,
+                  // borderRadius: true,
+                  // radius: Radius.circular(200),
+                  // overlayShadow: true,
+                  // overlayShadowColors: Colors.blue,
+                  // overlayShadowSize: 3,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  " الاقسام",
+                  style: TextStyle(color: Colors.blue, fontSize: 30),
+                ),
+              ),
+              Container(
+                height: 120,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/1.png',
+                          height: 90,
+                          width: 90,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Apple",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
-                    Image.asset(
-                      'assets/images/slider_2.png',
-                      fit: BoxFit.fill,
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/2.png',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Samsung",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
-                    Image.asset(
-                      'assets/images/slider_3.jpeg',
-                      fit: BoxFit.fill,
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/3.png',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Xiaomi",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/4.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Huawei",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/5.png',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Lg",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/6.png',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Lenovo",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: ListTile(
+                        title: Image.asset(
+                          'assets/categories/7.jpg',
+                          height: 80,
+                          width: 80,
+                        ),
+                        subtitle: Container(
+                          child: Text(
+                            "Vivo",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  " اخر المنتجات",
+                  style: TextStyle(color: Colors.blue, fontSize: 30),
+                ),
+              ),
+              Container(
+                  height: 400,
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, crossAxisSpacing: 5),
+                    children: <Widget>[
+                      GridTile(
+                        child: Image.asset('assets/products/1.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "iPhone 12 pro Max",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GridTile(
+                        child: Image.asset('assets/products/2.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "iPhone 12 Pro",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GridTile(
+                        child: Image.asset('assets/products/3.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "SAMSUNG P30s PRO",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GridTile(
+                        child: Image.asset('assets/products/4.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "SAMSUNG P30s ",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GridTile(
+                        child: Image.asset('assets/products/5.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "SAMSUNG P9s",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GridTile(
+                        child: Image.asset('assets/products/6.jpeg'),
+                        footer: Container(
+                          height: 20,
+                          color: Colors.blue.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              "iPhone 12 Pro",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),
