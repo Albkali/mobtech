@@ -47,26 +47,26 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - 'assets/images/1.jpeg'
-    - 'assets/images/2.jpeg'
-    - 'assets/images/3.jpeg'
-    - 'assets/images/4.jpeg'
-    - 'assets/images/6.jpeg'
-    - 'assets/images/7.jpeg'
-    - 'assets/images/8.jpeg'
-    - 'assets/products/1.jpeg'
-    - 'assets/products/2.jpeg'
-    - 'assets/products/3.jpeg'
-    - 'assets/products/4.jpeg'
-    - 'assets/products/5.jpeg'
-    - 'assets/products/6.jpeg'
-    - 'assets/categories/1.png'
-    - 'assets/categories/2.png'
-    - 'assets/categories/3.png'
-    - 'assets/categories/4.jpg'
-    - 'assets/categories/5.png'
-    - 'assets/categories/6.png'
-    - 'assets/categories/7.jpg'
+    - 'assets/images/posts/1.jpeg'
+    - 'assets/images/posts/2.jpeg'
+    - 'assets/images/posts/3.jpeg'
+    - 'assets/images/posts/4.jpeg'
+    - 'assets/images/posts/6.jpeg'
+    - 'assets/images/posts/7.jpeg'
+    - 'assets/images/posts/8.jpeg'
+    - 'assets/images/products/1.jpeg'
+    - 'assets/images/products/2.jpeg'
+    - 'assets/images/products/3.jpeg'
+    - 'assets/images/products/4.jpeg'
+    - 'assets/images/products/5.jpeg'
+    - 'assets/images/products/6.jpeg'
+    - 'assets/images/categories/1.png'
+    - 'assets/images/categories/2.png'
+    - 'assets/images/categories/3.png'
+    - 'assets/images/categories/4.jpg'
+    - 'assets/images/categories/5.png'
+    - 'assets/images/categories/6.png'
+    - 'assets/images/categories/7.jpg'
     
     
     
@@ -83,12 +83,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/fonts/Cairo/Cairo-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
