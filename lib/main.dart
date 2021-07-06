@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobtech/pages/apple.dart';
+import 'package:mobtech/pages/samsung.dart';
 import 'package:mobtech/pages/categories.dart';
 import 'package:mobtech/pages/home.dart';
+import 'package:mobtech/pages/mobiledetails.dart';
+import 'package:mobtech/test.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
           return categories();
         },
         'r_apple': (context) {
-          return Apple();
+          return Samsung();
+        },
+        'r_mobile_details': (context) {
+          return MobileDetails();
         },
       },
     );
