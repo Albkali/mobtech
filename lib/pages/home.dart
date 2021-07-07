@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:mobtech/components/drawer.dart';
+import 'package:mobtech/components/mobList.dart';
+import 'package:mobtech/pages/mobiledetails.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,6 +24,21 @@ class HomeState extends State<Home> {
   //   'assets/images/7.jpeg',
   //   'assets/images/8.jpeg',
   // ];
+  var listSearch = [];
+  Future getDataSearch() async {
+    var url = "http://127.0.0.1/mobtech/search.php";
+    var response = await http.get(Uri.parse(url));
+    var responsebody = jsonDecode(response.body);
+    for (int i = 0; i < responsebody.length; i++) {
+      listSearch.add(responsebody[i]['name']);
+    }
+  }
+
+  @override
+  void initState() {
+    getDataSearch();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +48,16 @@ class HomeState extends State<Home> {
         appBar: AppBar(
           title: Text("Mobtech"),
           backgroundColor: Colors.blue,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // _showDialog();
+                showSearch(
+                    context: context, delegate: DataSearch(list: listSearch));
+              },
+            ),
+          ],
           centerTitle: true,
           elevation: 30,
           // leading: IconButton(onPressed: () {},icon: Icon(Icons.search)),
@@ -352,5 +380,157 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Center(child: new Text("البحث")),
+          content: Container(
+              height: 100,
+              child: Column(
+                children: [
+                  new Text("اكتب الذي تريد البحث عنه "),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "اكتب هنا"),
+                  ),
+                ],
+              )),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new TextButton(
+              child: new Text("تم"),
+              onPressed: () {
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (context) {
+                //   return MobileDetails();
+                // },
+                // ),
+                // );
+              },
+            ),
+            new TextButton(
+              child: new Text("الغاء"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class DataSearch extends SearchDelegate<String> {
+  List<dynamic> list;
+  DataSearch({required this.list});
+
+  Future getDataResult() async {
+    var data = {"searchmobile": query};
+    var url = "http://127.0.0.1/mobtech/searchmob.php";
+    var response = await http.post(Uri.parse(url), body: data);
+    var responsebody = jsonDecode(response.body);
+    return responsebody;
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        // close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    return FutureBuilder(
+      future: getDataResult(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, i) {
+                return mobList(
+                  name: snapshot.data[i]['name'],
+                  screen: snapshot.data[i]['screen'],
+                  screen_protect: snapshot.data[i]['screen_protect'],
+                  screen_res: snapshot.data[i]['screen_res'],
+                  system: snapshot.data[i]['system'],
+                  cpu: snapshot.data[i]['cpu'],
+                  num_core: snapshot.data[i]['num_core'],
+                  gpu: snapshot.data[i]['gpu'],
+                  memory: snapshot.data[i]['memory'],
+                  ram: snapshot.data[i]['ram'],
+                  battery: snapshot.data[i]['battery'],
+                  camera_main: snapshot.data[i]['camera_main'],
+                  camera_feature: snapshot.data[i]['camera_feature'],
+                  camera_video: snapshot.data[i]['camera_video'],
+                  camera_ultra: snapshot.data[i]['camera_ultra'],
+                  camera_tele: snapshot.data[i]['camera_tele'],
+                  camera_depth: snapshot.data[i]['camera_depth'],
+                  camera_micro: snapshot.data[i]['camera_micro'],
+                  camera_self: snapshot.data[i]['camera_self'],
+                  camera_self_feature: snapshot.data[i]['camera_self_feature'],
+                  camera_self_video: snapshot.data[i]['camera_self_video'],
+                  price_eg: snapshot.data[i]['price_eg'],
+                  price_sa: snapshot.data[i]['price_sa'],
+                  price_uae: snapshot.data[i]['price_uae'],
+                  price_jo: snapshot.data[i]['price_jo'],
+                  price_sy: snapshot.data[i]['price_sy'],
+                  price_alg: snapshot.data[i]['price_alg'],
+                  mob_cat: snapshot.data[i]['mob_cat'],
+                );
+              });
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    var listsearchfltr = query.isEmpty
+        ? list
+        : list
+            .where((p) => p.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+
+    return ListView.builder(
+        itemCount: listsearchfltr.length,
+        itemBuilder: (context, i) {
+          return ListTile(
+            leading: Icon(
+              Icons.mobile_screen_share,
+            ),
+            title: Text(listsearchfltr[i]),
+            onTap: () {
+              query = listsearchfltr[i];
+              showResults(context);
+            },
+          );
+        });
   }
 }

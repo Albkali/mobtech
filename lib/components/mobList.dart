@@ -31,7 +31,7 @@ class mobList extends StatelessWidget {
   final price_alg;
   final mob_cat;
 
-  mobList(
+  const mobList(
       {this.name,
       this.screen,
       this.screen_protect,
@@ -65,27 +65,31 @@ class mobList extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 150,
+        height: 200,
         width: 100,
         child: Card(
           child: Row(
             children: [
               Expanded(
                 flex: 1,
-                child: Image.asset('assets/images/products/1.jpeg'),
+                child: Image.asset('assets/images/products/3.jpeg'),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Container(
-                  alignment: Alignment.topRight,
-                  height: 100,
+                  // alignment: Alignment.topRight,
+                  height: 160,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: (TextStyle(fontWeight: FontWeight.w500)),
-                        textAlign: TextAlign.center,
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          name,
+                          style: (TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 20)),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       Row(
                         children: [
@@ -94,26 +98,30 @@ class mobList extends StatelessWidget {
                               children: [
                                 Text(
                                   "الكاميرا : ",
-                                  style: (TextStyle(color: Colors.grey)),
+                                  style: (TextStyle(
+                                      color: Colors.grey, fontSize: 16)),
                                 ),
                                 Text(
                                   camera_main,
-                                  style: (TextStyle(color: Colors.blue)),
+                                  style: (TextStyle(
+                                      color: Colors.blue, fontSize: 16)),
                                 ),
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "المعالح : ",
-                                style: (TextStyle(color: Colors.grey)),
-                              ),
-                              Text(
-                                num_core,
-                                style: (TextStyle(color: Colors.blue)),
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "المعالح : ",
+                            style:
+                                (TextStyle(color: Colors.grey, fontSize: 16)),
+                          ),
+                          Text(
+                            num_core,
+                            style:
+                                (TextStyle(color: Colors.blue, fontSize: 16)),
                           ),
                         ],
                       ),
@@ -124,26 +132,30 @@ class mobList extends StatelessWidget {
                               children: [
                                 Text(
                                   "البطارية : ",
-                                  style: (TextStyle(color: Colors.grey)),
+                                  style: (TextStyle(
+                                      color: Colors.grey, fontSize: 16)),
                                 ),
                                 Text(
                                   battery,
-                                  style: (TextStyle(color: Colors.blue)),
+                                  style: (TextStyle(
+                                      color: Colors.blue, fontSize: 16)),
                                 ),
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "الذاكرة : ",
-                                style: (TextStyle(color: Colors.grey)),
-                              ),
-                              Text(
-                                memory,
-                                style: (TextStyle(color: Colors.blue)),
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "الذاكرة : ",
+                            style:
+                                (TextStyle(color: Colors.grey, fontSize: 16)),
+                          ),
+                          Text(
+                            memory,
+                            style:
+                                (TextStyle(color: Colors.blue, fontSize: 16)),
                           ),
                         ],
                       ),
@@ -155,7 +167,7 @@ class mobList extends StatelessWidget {
                               child: Text(
                                 "السعر : $price_sa \$",
                                 style: (TextStyle(
-                                    color: Colors.red, fontSize: 16)),
+                                    color: Colors.red, fontSize: 20)),
                               ),
                             ),
                             // Text(

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: " Mobtech",
-      theme: ThemeData(fontFamily: 'Cairo'),
+      // theme: ThemeData(fontFamily: 'Cairo'),
       home: Home(),
       routes: {
         'r_home': (context) {

@@ -40,7 +40,10 @@ class _SamsungState extends State<Samsung> {
   // ];
   Future getdata() async {
     var url = "http://127.0.0.1/mobtech/index.php";
-    var response = await http.get(Uri.parse(url));
+    var data = {
+      "cat": "1",
+    };
+    var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     return responsebody;
   }

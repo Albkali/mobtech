@@ -30,7 +30,7 @@ class MobileDetails extends StatefulWidget {
   final price_alg_d;
   final mob_cat_d;
 
-  MobileDetails(
+  const MobileDetails(
       {this.name_d,
       this.screen_d,
       this.screen_protect_d,
@@ -141,33 +141,52 @@ class _MobileDetailsState extends State<MobileDetails> {
                   mySpec(context, "البطارية : ", widget.battery_d, Colors.blue,
                       Colors.white),
 
-                  Container(
+                  Padding(
                     padding: EdgeInsets.only(top: 15),
-                    alignment: Alignment.center,
+                    // alignment: Alignment.center,
                     child: Text(
                       "الكاميرات",
                       style: TextStyle(fontSize: 23),
                     ),
                   ),
-                  mySpec(context, "الموديل : ", widget.name_d, Colors.white,
-                      Colors.blue),
-                  mySpec(context, "الشاشة : ", widget.screen_d, Colors.blue,
-                      Colors.white),
-                  mySpec(context, "الحمايات : ", widget.screen_protect_d,
+                  mySpec(context, "الكاميرا الرئيسية : ", widget.camera_main_d,
                       Colors.white, Colors.blue),
-                  mySpec(context, "دقة الشاشة : ", widget.screen_res_d,
+                  mySpec(context, "مميزات التصوير : ", widget.camera_feature_d,
                       Colors.blue, Colors.white),
-                  mySpec(context, "نظام التشغيل  : ", widget.system_d,
+                  mySpec(context, "الفيديو : ", widget.camera_video_d,
                       Colors.white, Colors.blue),
-                  mySpec(context, "المعالج : ", widget.cpu_d, Colors.blue,
-                      Colors.white),
-                  mySpec(context, "المعالج الرسومي : ", widget.cpu_d,
+                  mySpec(context, "الكاميرا ultrawide : ",
+                      widget.camera_ultra_d, Colors.blue, Colors.white),
+                  mySpec(context, " الكاميرا micro  : ", widget.camera_micro_d,
                       Colors.white, Colors.blue),
-                  mySpec(context, "الذاكرة : ", widget.memory_d, Colors.blue,
-                      Colors.white),
-                  mySpec(context, "الرام : ", widget.ram_d, Colors.white,
+                  mySpec(context, "الكاميرا depth : ", widget.camera_depth_d,
+                      Colors.blue, Colors.white),
+                  mySpec(context, " الكاميرا telephoto : ",
+                      widget.camera_tele_d, Colors.white, Colors.blue),
+                  mySpec(context, "الكاميرا الامامية : ", widget.camera_self_d,
+                      Colors.blue, Colors.white),
+                  mySpec(context, " مميزات التصوير : ",
+                      widget.camera_self_feature_d, Colors.white, Colors.blue),
+
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    // alignment: Alignment.center,
+                    child: Text(
+                      "الاسعار",
+                      style: TextStyle(fontSize: 23),
+                    ),
+                  ),
+                  mySpec(context, " السعودية : ", widget.price_sa_d,
+                      Colors.white, Colors.blue),
+                  mySpec(context, " الامارات : ", widget.price_uae_d,
+                      Colors.blue, Colors.white),
+                  mySpec(context, " مصر  : ", widget.price_eg_d, Colors.white,
                       Colors.blue),
-                  mySpec(context, "البطارية : ", widget.battery_d, Colors.blue,
+                  mySpec(context, " الاردن  : ", widget.price_jo_d, Colors.blue,
+                      Colors.white),
+                  mySpec(context, "  سوريا  : ", widget.price_sy_d,
+                      Colors.white, Colors.blue),
+                  mySpec(context, "الجزائر : ", widget.price_alg_d, Colors.blue,
                       Colors.white),
 
                   // Container(
