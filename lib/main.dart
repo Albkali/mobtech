@@ -5,6 +5,8 @@ import 'package:mobtech/pages/home.dart';
 import 'package:mobtech/pages/mobiledetails.dart';
 import 'package:mobtech/test.dart';
 
+import 'choosecountry.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: " Mobtech",
       // theme: ThemeData(fontFamily: 'Cairo'),
-      home: Home(),
+      home: ChooseCountry(),
       routes: {
         'r_home': (context) {
           return Home();

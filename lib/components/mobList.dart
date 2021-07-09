@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobtech/pages/mobiledetails.dart';
 
 class mobList extends StatelessWidget {
+  var price;
+  final country;
   final name;
   final screen;
   final screen_protect;
@@ -31,8 +33,9 @@ class mobList extends StatelessWidget {
   final price_alg;
   final mob_cat;
 
-  const mobList(
-      {this.name,
+  mobList(
+      {this.country,
+      this.name,
       this.screen,
       this.screen_protect,
       this.screen_res,
@@ -63,6 +66,19 @@ class mobList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (country == "sa") {
+      price = price_sa;
+    } else if (country == "eg") {
+      price = price_eg;
+    } else if (country == "ae") {
+      price = price_uae;
+    } else if (country == "jo") {
+      price = price_jo;
+    } else if (country == "sy") {
+      price = price_sy;
+    } else if (country == "dz") {
+      price = price_alg;
+    }
     return InkWell(
       child: Container(
         height: 200,
@@ -165,7 +181,7 @@ class mobList extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                "السعر : $price_sa \$",
+                                "السعر : $price \$",
                                 style: (TextStyle(
                                     color: Colors.red, fontSize: 20)),
                               ),

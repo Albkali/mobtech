@@ -5,6 +5,7 @@ import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:mobtech/components/drawer.dart';
 import 'package:mobtech/components/mobList.dart';
 import 'package:mobtech/pages/mobiledetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class HomeState extends State<Home> {
   //   'assets/images/7.jpeg',
   //   'assets/images/8.jpeg',
   // ];
+  var country;
   var listSearch = [];
   Future getDataSearch() async {
     var url = "http://127.0.0.1/mobtech/search.php";

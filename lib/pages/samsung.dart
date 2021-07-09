@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobtech/components/drawer.dart';
 import 'package:mobtech/components/mobList.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Samsung extends StatefulWidget {
   Samsung({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class Samsung extends StatefulWidget {
 }
 
 class _SamsungState extends State<Samsung> {
+  var country_pref;
   // List mobilelist = [
   //   {
   //     'name': 'iPhone 12 pro',
@@ -46,6 +48,19 @@ class _SamsungState extends State<Samsung> {
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     return responsebody;
+  }
+
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      country_pref = preferences.getString("country");
+    });
+  }
+
+  @override
+  void initState() {
+    getPref();
+    super.initState();
   }
 
   @override
@@ -95,6 +110,7 @@ class _SamsungState extends State<Samsung> {
                       price_sy: snapshot.data[i]['price_sy'],
                       price_alg: snapshot.data[i]['price_alg'],
                       mob_cat: snapshot.data[i]['mob_cat'],
+                      country: country_pref,
                     );
                   },
                 );
