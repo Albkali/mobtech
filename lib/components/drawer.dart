@@ -63,11 +63,13 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              "تسجيل الخروج",
+              "تسجيل دخول",
               style: TextStyle(color: Colors.black, fontSize: 18),
             ),
             leading: Icon(Icons.login_outlined, color: Colors.blue, size: 25),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed("r_login");
+            },
           ),
         ],
       ),

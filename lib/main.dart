@@ -6,6 +6,7 @@ import 'package:mobtech/pages/mobiledetails.dart';
 import 'package:mobtech/test.dart';
 
 import 'choosecountry.dart';
+import 'pages/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: " Mobtech",
       // theme: ThemeData(fontFamily: 'Cairo'),
-      home: ChooseCountry(),
+      home: LogIn(),
       routes: {
         'r_home': (context) {
           return Home();
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         },
         'r_mobile_details': (context) {
           return MobileDetails();
+        },
+        'r_login': (context) {
+          return LogIn();
         },
       },
     );
