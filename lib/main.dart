@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: " Mobtech",
       // theme: ThemeData(fontFamily: 'Cairo'),
-      home: LogIn(),
+
+      home: ChooseCountry(),
+
       routes: {
         'r_home': (context) {
           return Home();

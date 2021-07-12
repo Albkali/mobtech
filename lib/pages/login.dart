@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LogIn extends StatefulWidget {
   // LogIn({Key? key}) : super(key: key);
@@ -19,40 +21,76 @@ class _LogInState extends State<LogIn> {
   GlobalKey<FormState> formStateSignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formStateSignup = new GlobalKey<FormState>();
 
-  String validgloble(var valid) {
-    if (valid.isEmpty) {
-      return "field is can not be empty";
+  // String validusername(var val) {
+  //   if (val.isEmpty) {
+  //     return "يجب ادخال اسم المستخدم";
+  //   }
+  //   if (val.length < 4) {
+  //     return "يجب ان بكون اسم المستخدم على الاقل اربعة احرف";
+  //   } else {
+  //     return "";
+  //   }
+  // }
+  validusername(String? value) {
+    if (value == null || value.trim().length == 0) {
+      return "Field is required";
+    }
+    return null;
+  }
+
+  SigninValidate() {
+    if (formStateSignin.currentState != null &&
+        formStateSignin.currentState!.validate()) {
+      print("done");
+      Signin();
     } else {
-      return valid;
+      print("not done ");
+    }
+    // var formdata = formStateSignin.currentState;
+    // // formdata!.save();
+    // if (formdata != null && formdata!.validate()) {
+    //   // Signin();
+    // } else {
+    //   print("not validate");
+    // }
+  }
+
+  SignupVlidate() {
+    if (formStateSignup.currentState != null &&
+        formStateSignup.currentState!.validate()) {
+      print("done");
+      Signup();
+    } else {
+      print("not done ");
     }
   }
 
-  String validusername(var val) {
-    if (val.isEmpty) {
-      return "يجب ادخال اسم المستخدم";
-    }
-    if (val.length < 4) {
-      return "يجب ان بكون اسم المستخدم على الاقل اربعة احرف";
+  Signin() async {
+    var data = {"email": email.text, "password": password.text};
+    var url = "http://127.0.0.1/mobtech/login.php";
+    var response = await http.post(Uri.parse(url), body: data);
+    var responsebody = jsonDecode(response.body);
+    if (responsebody['status'] == 'success') {
+      print(responsebody['username']);
     } else {
-      return "";
-    }
-  }
-
-  Signin() {
-    var formdata = formStateSignin.currentState;
-    if (formdata!.validate()) {
-      print(username.text);
-    } else {
-      print("not validate");
+      print("faild login");
     }
   }
 
-  Signup() {
-    var formdata = formStateSignup.currentState;
-    if (formdata!.validate()) {
-      print(username.text);
-    } else {
-      print("not validate");
+  Signup() async {
+    var data = {
+      "email": email.text,
+      "password": password.text,
+      "username": username.text
+    };
+    var url = "http://127.0.0.1/mobtech/signup.php";
+    var response = await http.post(Uri.parse(url), body: data);
+    var responsebody = jsonDecode(response.body);
+    if (responsebody['status'] == 'success') {
+      print('signup success');
+    }
+    if (responsebody['status'] == 'email-already-found') {
+      print("email already has account");
     }
   }
 
@@ -64,7 +102,7 @@ class _LogInState extends State<LogIn> {
   changeSignin() {
     setState(() {
       showsingin = !showsingin;
-      print(showsingin);
+      // print(showsingin);
     });
   }
 
@@ -147,13 +185,11 @@ class _LogInState extends State<LogIn> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: buildTextFormField("اسم المستخدم", false,
-                        Icons.person, username, validusername),
+                    child: TextFormFieldemail(),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: buildTextFormField(
-                        "كلمة المرور", true, Icons.lock, password, validgloble),
+                    child: TextFormFieldpassword(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 8),
@@ -169,7 +205,7 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                       onPressed: () {
-                        Signin();
+                        SigninValidate();
                       },
                       child: Text(
                         "تسجيل الدخول",
@@ -257,33 +293,19 @@ class _LogInState extends State<LogIn> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: buildTextFormField("اسم المستخدم", false,
-                        Icons.person, username, validgloble),
+                    child: TextFormFieldusername(),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: buildTextFormField("البريد الالكتروني", false,
-                        Icons.email, email, validgloble),
+                    child: TextFormFieldemail(),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: buildTextFormField(
-                      "كلمة المرور",
-                      true,
-                      Icons.lock,
-                      password,
-                      validgloble,
-                    ),
+                    child: TextFormFieldpassword(),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: buildTextFormField(
-                      "تأكيد كلمة المرور",
-                      true,
-                      Icons.lock,
-                      confirmpassword,
-                      validgloble,
-                    ),
+                    child: TextFormFieldconfirmpassword(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 8),
@@ -299,7 +321,7 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                       onPressed: () {
-                        Signup();
+                        SignupVlidate();
                       },
                       child: Text(
                         "انشاء حساب ",
@@ -358,16 +380,70 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  TextFormField buildTextFormField(
-      String Tinput,
-      bool pass,
-      IconData Ticon,
-      TextEditingController myController,
-      FormFieldValidator<String> myvalidator) {
+  TextFormField TextFormFieldemail() {
     return TextFormField(
-      controller: myController,
-      obscureText: pass,
-      validator: myvalidator,
+      controller: email,
+      obscureText: false,
+      validator: (String? value) {
+        if (value == null || value.trim().length == 0) {
+          return "يجب ادخال البريد الالكتروني";
+        } else if (!RegExp(
+                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            .hasMatch(value)) {
+          return "ادخل الايميل بشكل صحيح";
+        }
+        return null;
+      },
+      // autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: Colors.red,
+      cursorWidth: 4,
+      style: TextStyle(fontSize: 16, color: Colors.black),
+      decoration: InputDecoration(
+        // hintText = " ادخل الاسم ",
+        contentPadding: EdgeInsets.all(8),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(right: 20),
+          child: Icon(
+            Icons.email,
+            size: 20,
+          ),
+        ),
+        labelText: "البريد الالكتروني",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.blue,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.amber,
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextFormField TextFormFieldusername() {
+    return TextFormField(
+      controller: username,
+      obscureText: false,
+      validator: (String? value) {
+        if (value!.trim().isEmpty || value.trim().length <= 0) {
+          return "يجب ادخال اسم مستخدم";
+        } else if (value.trim().length < 4) {
+          return "يجب ان يكون اسم المستخدم على الاقل 4 احرف";
+        } else if (value.trim().length > 15) {
+          return "يجب ان يكون اسم المستخدم  اقل من 15 حرف";
+        }
+        // else if (!RegExp(r'^[a-z]+$').hasMatch(value)) {
+        //   return " ادخل اسم المستخدم بشكل صحيح او بدون مسافات";
+        // }
+        return null;
+      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: Colors.red,
       cursorWidth: 4,
@@ -380,11 +456,99 @@ class _LogInState extends State<LogIn> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(right: 20),
           child: Icon(
-            Ticon,
+            Icons.person,
             size: 20,
           ),
         ),
-        labelText: Tinput,
+        labelText: "اسم المستخدم",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.blue,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.amber,
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextFormField TextFormFieldpassword() {
+    return TextFormField(
+      controller: password,
+      obscureText: true,
+      validator: (String? value) {
+        if (value!.trim().isEmpty || value.trim().length <= 0) {
+          return "يجب ادخال كلمة المرور";
+        } else if (value.trim().length < 6) {
+          return "يجب ان لا تكون كلمة المرور اقل من 6";
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: Colors.red,
+      cursorWidth: 4,
+      style: TextStyle(fontSize: 16, color: Colors.black),
+      decoration: InputDecoration(
+        // hintText = " ادخل الاسم ",
+        contentPadding: EdgeInsets.all(8),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(right: 20),
+          child: Icon(
+            Icons.lock,
+            size: 20,
+          ),
+        ),
+        labelText: "كلمة المرور",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.blue,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(
+            color: Colors.amber,
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextFormField TextFormFieldconfirmpassword() {
+    return TextFormField(
+      controller: confirmpassword,
+      obscureText: true,
+      validator: (String? value) {
+        if (value!.trim() != password.text) {
+          return "كلمة السر غير متطابقة";
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: Colors.red,
+      cursorWidth: 4,
+      style: TextStyle(fontSize: 16, color: Colors.black),
+      decoration: InputDecoration(
+        // hintText = " ادخل الاسم ",
+        contentPadding: EdgeInsets.all(8),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(right: 20),
+          child: Icon(
+            Icons.lock,
+            size: 20,
+          ),
+        ),
+        labelText: "تأكيد كملة المرور",
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40),
           borderSide: BorderSide(
@@ -414,27 +578,34 @@ class _LogInState extends State<LogIn> {
           BoxShadow(color: Colors.black, blurRadius: 10, spreadRadius: 5),
         ],
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: 20,
-            right: 20,
-            child: Icon(
-              Icons.person_outline,
-              size: 60,
-              color: Colors.white,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            showsingin = !showsingin;
+          });
+        },
+        child: Stack(
+          children: [
+            Positioned(
+              top: 20,
+              right: 20,
+              child: Icon(
+                Icons.person_outline,
+                size: 60,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Positioned(
-            top: 35,
-            left: 65,
-            child: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.white,
+            Positioned(
+              top: 35,
+              left: 65,
+              child: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
