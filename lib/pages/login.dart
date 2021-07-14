@@ -20,6 +20,26 @@ class _LogInState extends State<LogIn> {
 
   GlobalKey<FormState> formStateSignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formStateSignup = new GlobalKey<FormState>();
+  showdialog(context, String mytitle, String mycontent) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(child: Text(mytitle)),
+            content: Text(mycontent),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Center(child: Text("Try Again")),
+                ),
+              ),
+            ],
+          );
+        });
+  }
 
   // String validusername(var val) {
   //   if (val.isEmpty) {
@@ -41,11 +61,13 @@ class _LogInState extends State<LogIn> {
   SigninValidate() {
     if (formStateSignin.currentState != null &&
         formStateSignin.currentState!.validate()) {
-      print("done");
+      print("done Validate");
+
       Signin();
     } else {
-      print("not done ");
+      print("not done Validate");
     }
+
     // var formdata = formStateSignin.currentState;
     // // formdata!.save();
     // if (formdata != null && formdata!.validate()) {
@@ -58,10 +80,10 @@ class _LogInState extends State<LogIn> {
   SignupVlidate() {
     if (formStateSignup.currentState != null &&
         formStateSignup.currentState!.validate()) {
-      print("done");
+      print("done Validate");
       Signup();
     } else {
-      print("not done ");
+      print("not done Validate");
     }
   }
 
@@ -70,11 +92,22 @@ class _LogInState extends State<LogIn> {
     var url = "http://127.0.0.1/mobtech/login.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
-    if (responsebody['status'] == 'success') {
-      print(responsebody['username']);
-    } else {
-      print("faild login");
+    if (data['email'] == responsebody['email'] &&
+        data['password'] != responsebody['password']) {
+      showdialog(context, "done", "login success");
     }
+    // if (responsebody['status'] == 'success') {
+    //   print(responsebody['password']);
+    //   // Navigator.of(context).pushNamed('r_home');
+    // }
+    // if (email.text != responsebody['email']) {
+    //   showdialog(context, "ليس لديك حساب بهذا البريد الالكتروني ${email.text}",
+    //       "الرجاء المحاولة مرة اخرى او انشاء حساب");
+    // }
+    // if (password.text != responsebody['password']) {
+    //   showdialog(context, "خطأ في كلمة السر لـ",
+    //       "كلمة السر التي تم ادخالها غير صحيحة , الرجاء المحاولة مرة اخرى");
+    // }
   }
 
   Signup() async {
