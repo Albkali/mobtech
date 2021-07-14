@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
   // LogIn({Key? key}) : super(key: key);
@@ -20,6 +21,29 @@ class _LogInState extends State<LogIn> {
 
   GlobalKey<FormState> formStateSignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formStateSignup = new GlobalKey<FormState>();
+
+  savePrefSign(String _username, String _email, String _password) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("username", _username);
+    preferences.setString("email", _email);
+    preferences.setString("password", _password);
+  }
+
+  showdCircularProgres(context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Row(
+              children: [
+                Text("Loading..."),
+                CircularProgressIndicator(),
+              ],
+            ),
+          );
+        });
+  }
+
   showdialog(context, String mytitle, String mycontent) {
     return showDialog(
         context: context,
@@ -33,7 +57,7 @@ class _LogInState extends State<LogIn> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Center(child: Text("Try Again")),
+                  child: Center(child: Text("حاول مرة اخرى")),
                 ),
               ),
             ],
@@ -41,49 +65,25 @@ class _LogInState extends State<LogIn> {
         });
   }
 
-  // String validusername(var val) {
-  //   if (val.isEmpty) {
-  //     return "يجب ادخال اسم المستخدم";
-  //   }
-  //   if (val.length < 4) {
-  //     return "يجب ان بكون اسم المستخدم على الاقل اربعة احرف";
-  //   } else {
-  //     return "";
-  //   }
-  // }
-  validusername(String? value) {
-    if (value == null || value.trim().length == 0) {
-      return "Field is required";
-    }
-    return null;
-  }
-
   SigninValidate() {
     if (formStateSignin.currentState != null &&
         formStateSignin.currentState!.validate()) {
       print("done Validate");
-
+      showdCircularProgres(context);
       Signin();
     } else {
-      print("not done Validate");
+      showdialog(context, "خطأ", "الرجاء ملىء الحقول كاملاً بالشكل المطلوب");
     }
-
-    // var formdata = formStateSignin.currentState;
-    // // formdata!.save();
-    // if (formdata != null && formdata!.validate()) {
-    //   // Signin();
-    // } else {
-    //   print("not validate");
-    // }
   }
 
   SignupVlidate() {
     if (formStateSignup.currentState != null &&
         formStateSignup.currentState!.validate()) {
       print("done Validate");
+      showdCircularProgres(context);
       Signup();
     } else {
-      print("not done Validate");
+      showdialog(context, "خطأ", "الرجاء ملىء الحقول كاملاً بالشكل المطلوب");
     }
   }
 
@@ -92,14 +92,16 @@ class _LogInState extends State<LogIn> {
     var url = "http://127.0.0.1/mobtech/login.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
-    if (data['email'] == responsebody['email'] &&
-        data['password'] != responsebody['password']) {
-      showdialog(context, "done", "login success");
-    }
-    // if (responsebody['status'] == 'success') {
-    //   print(responsebody['password']);
-    //   // Navigator.of(context).pushNamed('r_home');
+    // if (responsebody['email'] == email.text) {
+    //   showdialog(context, "done", "login success");
     // }
+
+    if (responsebody['status'] == 'success') {
+      showdialog(context, "تم", "تسجيل الدخول بنجاح");
+      Navigator.of(context).pushNamed('r_home');
+      savePrefSign(responsebody['username'], responsebody['email'],
+          responsebody['password']);
+    }
     // if (email.text != responsebody['email']) {
     //   showdialog(context, "ليس لديك حساب بهذا البريد الالكتروني ${email.text}",
     //       "الرجاء المحاولة مرة اخرى او انشاء حساب");
@@ -108,6 +110,10 @@ class _LogInState extends State<LogIn> {
     //   showdialog(context, "خطأ في كلمة السر لـ",
     //       "كلمة السر التي تم ادخالها غير صحيحة , الرجاء المحاولة مرة اخرى");
     // }
+    else {
+      showdialog(context, "خطأ",
+          "خظأ في تسجيل الدخول , الرجاء التاكد من البريد الالكتروني او كلمة السر");
+    }
   }
 
   Signup() async {
@@ -120,10 +126,13 @@ class _LogInState extends State<LogIn> {
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     if (responsebody['status'] == 'success') {
-      print('signup success');
+      Navigator.of(context).pushNamed('r_home');
+      savePrefSign(responsebody['username'], responsebody['email'],
+          responsebody['password']);
     }
     if (responsebody['status'] == 'email-already-found') {
-      print("email already has account");
+      showdialog(context, " خطأ",
+          "لديك حساب على هذا البريد الالكتروني ${email.text} الرجاء المحاولة مرة اخرى ");
     }
   }
 

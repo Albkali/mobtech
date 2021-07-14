@@ -7,6 +7,7 @@ import 'package:mobtech/test.dart';
 
 import 'choosecountry.dart';
 import 'pages/login.dart';
+import 'pages/posts.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         },
         'r_login': (context) {
           return LogIn();
+        },
+        'r_posts': (context) {
+          return Posts();
         },
       },
     );
