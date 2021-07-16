@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobtech/components/animateroute.dart';
 import 'package:mobtech/components/drawer.dart';
+import 'package:mobtech/pages/comments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Posts extends StatefulWidget {
@@ -10,6 +12,13 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  List posts = [
+    {'name': "yasser", 'content': " عندي جوال ايفون واريد ابعية لاعلى سعر "},
+    {
+      'name': "mohammed",
+      'content': " عندي جوال ايفون ١٢ بور واريد ابعية لاعلى سعر "
+    }
+  ];
   var username;
   var email;
   getPrefSign() async {
@@ -100,85 +109,109 @@ class _PostsState extends State<Posts> {
                 ],
               ),
             ),
-            Card(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                      child: Icon(Icons.person),
-                    ),
-                    title: Container(
-                      padding: EdgeInsets.only(top: 10, bottom: 8),
-                      child: Text(username),
-                    ),
-                    trailing: Icon(Icons.more_vert),
-                    // isThreeLine: true,
-                    subtitle: Text(
-                      " جوال ايفون واريد بيعه بأعلى سعر على السومة الجوال جديد بكرتونه الرجاء عدم البخس بالسلدي جوال ايفون واريد بيعه بأعلى سعر على السومة الجوال جديد بكرتونه الرجاء عدم البخس بالسعر ",
-                      style: TextStyle(
-                        fontSize: 14,
+            for (int i = 0; i < posts.length; i++)
+              ListPosts(
+                  name: posts[i]['name'], contentpost: posts[i]['content']),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ListPosts extends StatelessWidget {
+  final name;
+  final contentpost;
+
+  const ListPosts({this.name, this.contentpost});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+        child: Column(
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.person),
+              ),
+              title: Container(
+                padding: EdgeInsets.only(top: 10, bottom: 8),
+                child: Text(
+                  name,
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+              trailing: Icon(Icons.more_vert),
+              // isThreeLine: true,
+              subtitle: Text(
+                contentpost,
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            Divider(
+              color: Colors.grey.withOpacity(0.5),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(color: Colors.grey),
                       ),
                     ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            "إعجاب",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Icon(Icons.thumb_up, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(color: Colors.grey),
+                ),
+                Expanded(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(
+                              "تعليق",
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text(
-                                  "إعجاب",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Icon(Icons.thumb_up, color: Colors.grey),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Icon(Icons.comment, color: Colors.grey),
                           ),
-                        ),
+                        ],
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text(
-                                  "تعليق",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Icon(Icons.comment, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(SlideBottomRoute(page: Commments()));
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5),
-                  ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 5),
             ),
           ],
         ),
