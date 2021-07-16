@@ -118,6 +118,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     preferences.remove("username");
                     preferences.remove("email");
                     preferences.remove("password");
+                    preferences.remove("id");
                     Navigator.of(context).pushNamed("r_login");
                   },
                 )

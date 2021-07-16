@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobtech/pages/comments.dart';
 import 'package:mobtech/pages/samsung.dart';
 import 'package:mobtech/pages/categories.dart';
 import 'package:mobtech/pages/home.dart';
@@ -40,6 +41,11 @@ class MyApp extends StatelessWidget {
         'r_posts': (context) {
           return Posts();
         },
+        // 'r_comments': (context) {
+        //   return Comments();
+        // },
+
+        // Comments.routeName: (context) => Comments(),
       },
     );
   }

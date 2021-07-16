@@ -22,8 +22,10 @@ class _LogInState extends State<LogIn> {
   GlobalKey<FormState> formStateSignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formStateSignup = new GlobalKey<FormState>();
 
-  savePrefSign(String _username, String _email, String _password) async {
+  savePrefSign(
+      String _id, String _username, String _email, String _password) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("id", _id);
     preferences.setString("username", _username);
     preferences.setString("email", _email);
     preferences.setString("password", _password);
@@ -99,8 +101,8 @@ class _LogInState extends State<LogIn> {
     if (responsebody['status'] == 'success') {
       showdialog(context, "تم", "تسجيل الدخول بنجاح");
       Navigator.of(context).pushNamed('r_home');
-      savePrefSign(responsebody['username'], responsebody['email'],
-          responsebody['password']);
+      savePrefSign(responsebody['id'], responsebody['username'],
+          responsebody['email'], responsebody['password']);
     }
     // if (email.text != responsebody['email']) {
     //   showdialog(context, "ليس لديك حساب بهذا البريد الالكتروني ${email.text}",
@@ -127,8 +129,8 @@ class _LogInState extends State<LogIn> {
     var responsebody = jsonDecode(response.body);
     if (responsebody['status'] == 'success') {
       Navigator.of(context).pushNamed('r_home');
-      savePrefSign(responsebody['username'], responsebody['email'],
-          responsebody['password']);
+      savePrefSign(responsebody['id'], responsebody['username'],
+          responsebody['email'], responsebody['password']);
     }
     if (responsebody['status'] == 'email-already-found') {
       showdialog(context, " خطأ",

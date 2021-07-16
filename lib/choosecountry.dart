@@ -72,6 +72,7 @@ class _ChooseCountryState extends State<ChooseCountry> {
       ),
       onTap: () {
         savePrefcounrty(set_country);
+        Navigator.of(context).pushNamed('r_login');
       },
     );
   }

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:mobtech/components/animateroute.dart';
+// import 'package:mobtech/components/animateroute.dart';
 import 'package:mobtech/components/drawer.dart';
 import 'package:mobtech/pages/comments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Posts extends StatefulWidget {
   Posts({Key? key}) : super(key: key);
@@ -12,19 +15,32 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  List posts = [
-    {'name': "yasser", 'content': " عندي جوال ايفون واريد ابعية لاعلى سعر "},
-    {
-      'name': "mohammed",
-      'content': " عندي جوال ايفون ١٢ بور واريد ابعية لاعلى سعر "
-    }
-  ];
+  var id;
   var username;
   var email;
+  TextEditingController _addpost = new TextEditingController();
+
+  Future addPost() async {
+    var data = {"post": _addpost.text, "postuser": id};
+    var url = "http://127.0.0.1/mobtech/addpost.php";
+    var response = await http.post(Uri.parse(url), body: data);
+    var responsebody = jsonDecode(response.body);
+    Navigator.of(context).pushNamed('r_posts');
+    _addpost.text = " ";
+  }
+
+  Future getPost() async {
+    var url = "http://127.0.0.1/mobtech/post.php";
+    var response = await http.get(Uri.parse(url));
+    var responsebody = jsonDecode(response.body);
+    return responsebody;
+  }
+
   getPrefSign() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     setState(() {
+      id = preferences.getString("id");
       username = preferences.getString("username");
       email = preferences.getString("email");
     });
@@ -56,6 +72,7 @@ class _PostsState extends State<Posts> {
                       child: Icon(Icons.person),
                     ),
                     title: TextFormField(
+                      controller: _addpost,
                       maxLines: 10,
                       minLines: 1,
                       maxLength: 255,
@@ -73,7 +90,9 @@ class _PostsState extends State<Posts> {
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            addPost();
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border(
@@ -109,9 +128,26 @@ class _PostsState extends State<Posts> {
                 ],
               ),
             ),
-            for (int i = 0; i < posts.length; i++)
-              ListPosts(
-                  name: posts[i]['name'], contentpost: posts[i]['content']),
+            FutureBuilder(
+              future: getPost(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      for (int i = snapshot.data.length - 1; i >= 0; i--)
+                        ListPosts(
+                          name: snapshot.data[i]['username'],
+                          contentpost: snapshot.data[i]['post'],
+                          postId: snapshot.data[i]['post_id'],
+                        ),
+                    ],
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -120,10 +156,11 @@ class _PostsState extends State<Posts> {
 }
 
 class ListPosts extends StatelessWidget {
+  final postId;
   final name;
   final contentpost;
 
-  const ListPosts({this.name, this.contentpost});
+  ListPosts({this.postId, this.name, this.contentpost});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -203,8 +240,27 @@ class ListPosts extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context)
-                          .push(SlideBottomRoute(page: Commments()));
+                      // Navigator.pushNamed(
+                      //   context,
+                      //   Comments.routeName,
+                      //   arguments: Comments(
+                      //     Idpost: postId,
+                      //   ),
+                      // );
+                      // Navigator.of(context).push(
+                      //   SlideBottomRoute(
+                      //     page: Comments(
+                      //       Idpost: postId,
+                      //     ),
+                      //   ),
+                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return Comments(
+                            Idpost: postId,
+                          );
+                        }),
+                      );
                     },
                   ),
                 ),
