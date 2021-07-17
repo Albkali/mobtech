@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
         'r_posts': (context) {
           return Posts();
         },
-        // 'r_comments': (context) {
-        //   return Comments();
-        // },
+        'r_comments': (context) {
+          return Comments();
+        },
 
         // Comments.routeName: (context) => Comments(),
       },

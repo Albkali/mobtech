@@ -6,6 +6,8 @@ import 'package:mobtech/components/drawer.dart';
 import 'package:mobtech/pages/comments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class Posts extends StatefulWidget {
   Posts({Key? key}) : super(key: key);
@@ -18,15 +20,30 @@ class _PostsState extends State<Posts> {
   var id;
   var username;
   var email;
+  File? _file;
   TextEditingController _addpost = new TextEditingController();
 
+  Future pickerCamera() async {
+    final myfile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _file = File(myfile!.path);
+    });
+  }
+
   Future addPost() async {
-    var data = {"post": _addpost.text, "postuser": id};
+    String base64 = base64Encode(_file!.readAsBytesSync());
+    String imagename = _file!.path.split("/").last;
+    var data = {
+      "post": _addpost.text,
+      "postuser": id,
+      "imagename": imagename,
+      "image64": base64
+    };
     var url = "http://127.0.0.1/mobtech/addpost.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     Navigator.of(context).pushNamed('r_posts');
-    _addpost.text = " ";
+    _addpost.text = "";
   }
 
   Future getPost() async {
@@ -85,6 +102,10 @@ class _PostsState extends State<Posts> {
                         ),
                       ),
                     ),
+                  ),
+                  IconButton(
+                    onPressed: pickerCamera,
+                    icon: Icon(Icons.camera_enhance),
                   ),
                   Row(
                     children: [

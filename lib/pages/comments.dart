@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +31,8 @@ class _CommentsState extends State<Comments> {
     var url = "http://127.0.0.1/mobtech/addcomment.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
-    // Navigator.of(context).pushNamed('r_posts');
-    // _addcomment.text = " ";
+    Navigator.of(context).pushNamed('r_posts');
+    // _addcomment.text = "";
   }
 
   Future getComments() async {
@@ -54,105 +53,120 @@ class _CommentsState extends State<Comments> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-              ),
-              Positioned(
-                  bottom: 20,
-                  child: Container(
-                    height: 60,
+      child: Scaffold(
+        body: Container(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(color: Colors.grey),
-                            ),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.camera_enhance,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {}),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                width: MediaQuery.of(context).size.width - 50,
-                                child: TextFormField(
-                                  controller: _addcomment,
-                                  decoration: InputDecoration(
-                                    hintText: "        اكتب تعليقك هنا ",
-                                    filled: true,
-                                    fillColor: Colors.grey[200],
-                                    suffixIcon: IconButton(
-                                      icon: Icon(Icons.send),
-                                      onPressed: () {
-                                        addComment();
-                                      },
-                                    ),
-                                    contentPadding: EdgeInsets.all(5),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(60),
-                                      borderSide:
-                                          BorderSide(style: BorderStyle.none),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(60),
-                                      borderSide:
-                                          BorderSide(style: BorderStyle.none),
-                                    ),
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                  ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    child: Container(
+                      // color: Colors.red,
+                      height: 65,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.grey,
                                 ),
                               ),
-                            ],
+                            ),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.camera_enhance_outlined,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 8),
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  child: TextFormField(
+                                    controller: _addcomment,
+                                    decoration: InputDecoration(
+                                      hintText: "  اكتب تعليقك هنا",
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          addComment();
+                                        },
+                                        icon: Icon(Icons.send),
+                                      ),
+                                      contentPadding: EdgeInsets.all(5),
+                                      filled: true,
+                                      fillColor: Colors.grey[285],
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                        borderSide:
+                                            BorderSide(style: BorderStyle.none),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                        borderSide:
+                                            BorderSide(style: BorderStyle.none),
+                                      ),
+                                      // border: OutlineInputBorder(
+                                      //   borderSide: BorderSide(color: Colors.blue),
+                                      //   borderRadius: BorderRadius.circular(30),
+                                      // ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  )),
-              Positioned(
-                top: 30,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 70,
-                  child: SingleChildScrollView(
-                    child: FutureBuilder(
-                      future: getComments(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              for (int i = 0; i < snapshot.data.length; i++)
-                                Commentslist(
-                                  comments: snapshot.data[i]['comment'],
-                                  username: snapshot.data[i]['username'],
-                                )
-                            ],
-                          );
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                  Toppositioned(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned Toppositioned() {
+    return Positioned(
+      top: 30,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height - 70,
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: getComments(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    for (int i = 0; i < snapshot.data.length; i++)
+                      Commentslist(
+                        comments: snapshot.data[i]['comment'],
+                        username: snapshot.data[i]['username'],
+                      )
+                  ],
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ),
       ),
