@@ -160,6 +160,7 @@ class _PostsState extends State<Posts> {
                           name: snapshot.data[i]['username'],
                           contentpost: snapshot.data[i]['post'],
                           postId: snapshot.data[i]['post_id'],
+                          postImage: snapshot.data[i]['post_image'],
                         ),
                     ],
                   );
@@ -180,8 +181,9 @@ class ListPosts extends StatelessWidget {
   final postId;
   final name;
   final contentpost;
+  final postImage;
 
-  ListPosts({this.postId, this.name, this.contentpost});
+  ListPosts({this.postId, this.name, this.contentpost, this.postImage});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,25 +191,30 @@ class ListPosts extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(
-                child: Icon(Icons.person),
-              ),
-              title: Container(
-                padding: EdgeInsets.only(top: 10, bottom: 8),
-                child: Text(
-                  name,
-                  style: TextStyle(color: Colors.blue),
+                leading: CircleAvatar(
+                  child: Icon(Icons.person),
                 ),
-              ),
-              trailing: Icon(Icons.more_vert),
-              // isThreeLine: true,
-              subtitle: Text(
-                contentpost,
-                style: TextStyle(
-                  fontSize: 14,
+                title: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 8),
+                  child: Text(
+                    name,
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ),
-              ),
-            ),
+                trailing: Icon(Icons.more_vert),
+                // isThreeLine: true,
+                subtitle: Column(
+                  children: [
+                    Text(
+                      contentpost,
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                    Image.network(
+                        "http://127.0.0.1/mobtech/upload/${postImage}"),
+                  ],
+                )),
             Divider(
               color: Colors.grey.withOpacity(0.5),
             ),
