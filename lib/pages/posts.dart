@@ -39,7 +39,7 @@ class _PostsState extends State<Posts> {
       "imagename": imagename,
       "image64": base64
     };
-    var url = "http://127.0.0.1/mobtech/addpost.php";
+    var url = "https://albkali.com/mobtech/addpost.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     Navigator.of(context).pushNamed('r_posts');
@@ -47,7 +47,7 @@ class _PostsState extends State<Posts> {
   }
 
   Future getPost() async {
-    var url = "http://127.0.0.1/mobtech/post.php";
+    var url = "https://albkali.com/mobtech/post.php";
     var response = await http.get(Uri.parse(url));
     var responsebody = jsonDecode(response.body);
     return responsebody;
@@ -212,7 +212,7 @@ class ListPosts extends StatelessWidget {
                       ),
                     ),
                     Image.network(
-                        "http://127.0.0.1/mobtech/upload/${postImage}"),
+                        "https://albkali.com/mobtech/upload/${postImage}"),
                   ],
                 )),
             Divider(

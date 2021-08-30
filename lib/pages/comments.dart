@@ -28,7 +28,7 @@ class _CommentsState extends State<Comments> {
       "comment_user": id,
       "comment_post": widget.Idpost
     };
-    var url = "http://127.0.0.1/mobtech/addcomment.php";
+    var url = "https://albkali.com/mobtech/addcomment.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     Navigator.of(context).pushNamed('r_posts');
@@ -37,7 +37,7 @@ class _CommentsState extends State<Comments> {
 
   Future getComments() async {
     var data = {"postid": widget.Idpost};
-    var url = "http://127.0.0.1/mobtech/comments.php";
+    var url = "https://albkali.com/mobtech/comments.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
 

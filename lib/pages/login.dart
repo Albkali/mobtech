@@ -91,7 +91,7 @@ class _LogInState extends State<LogIn> {
 
   Signin() async {
     var data = {"email": email.text, "password": password.text};
-    var url = "http://127.0.0.1/mobtech/login.php";
+    var url = "https://albkali.com/mobtech/login.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     // if (responsebody['email'] == email.text) {
@@ -124,7 +124,7 @@ class _LogInState extends State<LogIn> {
       "password": password.text,
       "username": username.text
     };
-    var url = "http://127.0.0.1/mobtech/signup.php";
+    var url = "https://albkali.com/mobtech/signup.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     if (responsebody['status'] == 'success') {

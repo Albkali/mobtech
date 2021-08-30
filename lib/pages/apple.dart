@@ -5,14 +5,14 @@ import 'package:mobtech/components/drawer.dart';
 import 'package:mobtech/components/mobList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Samsung extends StatefulWidget {
-  Samsung({Key? key}) : super(key: key);
+class Apple extends StatefulWidget {
+  Apple({Key? key}) : super(key: key);
 
   @override
-  _SamsungState createState() => _SamsungState();
+  _AppleState createState() => _AppleState();
 }
 
-class _SamsungState extends State<Samsung> {
+class _AppleState extends State<Apple> {
   var country_pref;
   // List mobilelist = [
   //   {
@@ -41,9 +41,9 @@ class _SamsungState extends State<Samsung> {
   //   },
   // ];
   Future getdata() async {
-    var url = "https://albkali.com/mobtech/index.php";
+    var url = "https://albkali.com/mobtech/apple.php";
     var data = {
-      "cat": "1",
+      "cat": "5",
     };
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
@@ -69,7 +69,7 @@ class _SamsungState extends State<Samsung> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Samsung"),
+          title: Text("Apple"),
           centerTitle: true,
         ),
         drawer: MyDrawer(),

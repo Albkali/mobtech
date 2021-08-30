@@ -5,8 +5,8 @@ import 'package:mobtech/pages/categories.dart';
 import 'package:mobtech/pages/home.dart';
 import 'package:mobtech/pages/mobiledetails.dart';
 import 'package:mobtech/test.dart';
-
 import 'choosecountry.dart';
+import 'pages/apple.dart';
 import 'pages/login.dart';
 import 'pages/posts.dart';
 
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: " Mobtech",
       // theme: ThemeData(fontFamily: 'Cairo'),
+      
 
       home: ChooseCountry(),
 
@@ -29,8 +30,11 @@ class MyApp extends StatelessWidget {
         'r_categories': (context) {
           return categories();
         },
-        'r_apple': (context) {
+        'r_samsung': (context) {
           return Samsung();
+        },
+        'r_apple': (context) {
+          return Apple();
         },
         'r_mobile_details': (context) {
           return MobileDetails();

@@ -2,7 +2,10 @@
     package="com.example.mobtech">
    <application
         android:label="mobtech"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">
+        <!-- android:name="io.flutter.app.FlutterApplication" -->
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

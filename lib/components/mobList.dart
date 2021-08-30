@@ -94,7 +94,7 @@ class mobList extends StatelessWidget {
                 flex: 1,
                 child: Container(
                   // alignment: Alignment.topRight,
-                  height: 160,
+                  height: 180,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

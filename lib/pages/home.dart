@@ -28,7 +28,7 @@ class HomeState extends State<Home> {
   var country;
   var listSearch = [];
   Future getDataSearch() async {
-    var url = "http://127.0.0.1/mobtech/search.php";
+    var url = "https://albkali.com/mobtech/search.php";
     var response = await http.get(Uri.parse(url));
     var responsebody = jsonDecode(response.body);
     for (int i = 0; i < responsebody.length; i++) {
@@ -434,7 +434,7 @@ class DataSearch extends SearchDelegate<String> {
 
   Future getDataResult() async {
     var data = {"searchmobile": query};
-    var url = "http://127.0.0.1/mobtech/searchmob.php";
+    var url = "https://albkali.com/mobtech/searchmob.php";
     var response = await http.post(Uri.parse(url), body: data);
     var responsebody = jsonDecode(response.body);
     return responsebody;

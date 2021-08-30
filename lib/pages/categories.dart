@@ -50,7 +50,9 @@ class _categoriesState extends State<categories> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed('r_samsung');
+              },
               child: Card(
                 child: Column(
                   children: [
